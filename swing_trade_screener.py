@@ -8,21 +8,34 @@ WHAT THIS DOES
 --------------
 1. Downloads daily price/volume history for a list of NSE stocks via yfinance
 2. Computes trend, momentum, and volume indicators (SMA, RSI, MACD, ATR)
-3. Scores each stock against a simple swing-trading rule set (0-6)
-4. For stocks that pass your score threshold, calculates a suggested
+3. Pulls a few basic fundamentals per stock (P/E, ROE, debt-to-equity)
+4. Scores each stock against a combined technical + fundamental rule set
+   (0-9: 6 technical checks + 3 fundamental sanity checks)
+5. For stocks that pass your score threshold, calculates a suggested
    stop-loss and target using ATR (volatility) and a 2:1 reward:risk ratio
-5. Saves a ranked shortlist to a CSV file
+6. Saves a ranked shortlist, with the raw P/E, ROE, and debt figures shown
+   alongside the score, to a CSV file
 
 THIS IS NOT FINANCIAL ADVICE
 -----------------------------
-This is a mechanical filter over public price history. It knows nothing
-about news, fundamentals, sector context, results season, or your personal
+This is a mechanical filter over public price and fundamentals data. It
+knows nothing about news, sector context, results season, or your personal
 risk tolerance. It WILL produce false signals - that's true of every
-technical system, always paper-trade or size small while you validate it.
+rule-based system, always paper-trade or size small while you validate it.
 Treat the output as a shortlist for further research, never as an
 instruction to buy or sell. Trading involves real risk of loss, including
 losing more than the "stop-loss" if a stock gaps down. The author is not a
 SEBI-registered investment adviser and this script is not investment advice.
+
+THE FUNDAMENTAL CHECKS ARE ROUGH, NOT A FULL ANALYSIS
+--------------------------------------------------------
+They come from yfinance's free data feed (Yahoo Finance), which has
+inconsistent coverage for NSE stocks - some fields will be missing (None)
+for smaller/less-covered names, which simply fails that one check rather
+than crashing. The three checks are deliberately simple sanity filters
+(is it profitable at a sane valuation, is it reasonably profitable, is
+debt manageable) - not a real fundamental research process. See a proper
+source (Screener.in, annual reports) before trusting any single number.
 
 SETUP
 -----
@@ -34,7 +47,7 @@ USAGE
     python swing_trade_screener.py --min-score 5
     python swing_trade_screener.py --tickers my_stocks.csv --period 2y
 
-By default this screens a built-in list of ~100 liquid large/mid-cap NSE
+By default this screens a built-in list of the 50 largest/most liquid NSE
 stocks - a reasonable starting universe for swing trading, since very
 illiquid stocks are hard to enter/exit cleanly at your intended price.
 Index constituents change over time, so treat DEFAULT_TICKERS as a
@@ -63,29 +76,20 @@ except ImportError:
 
 NSE_SUFFIX = ".NS"
 
-# Liquid large & mid-cap NSE names (roughly Nifty 100 + a few extras).
-# This is a starting universe, not a guaranteed-current index list -
-# verify against niftyindices.com if exact constituents matter to you,
-# or supply your own list with --tickers.
+# The 50 largest/most liquid NSE names (roughly Nifty 50) - trimmed down
+# from a longer list so a full run finishes faster. Not a guaranteed-current
+# index list - verify against niftyindices.com if exact constituents matter,
+# or supply your own (bigger or smaller) list with --tickers.
 DEFAULT_TICKERS = [
-    "RELIANCE", "TCS", "HDFCBANK", "ICICIBANK", "INFY", "HINDUNILVR", "ITC",
-    "SBIN", "BHARTIARTL", "KOTAKBANK", "LT", "AXISBANK", "BAJFINANCE",
-    "ASIANPAINT", "MARUTI", "TITAN", "SUNPHARMA", "ULTRACEMCO", "WIPRO",
-    "NESTLEIND", "HCLTECH", "ADANIENT", "TATASTEEL", "TATAMOTORS",
-    "POWERGRID", "NTPC", "ONGC", "M&M", "JSWSTEEL", "BAJAJFINSV", "TECHM",
-    "INDUSINDBK", "GRASIM", "CIPLA", "DRREDDY", "EICHERMOT", "BRITANNIA",
-    "DIVISLAB", "HEROMOTOCO", "COALINDIA", "BPCL", "HINDALCO", "SBILIFE",
-    "HDFCLIFE", "APOLLOHOSP", "TATACONSUM", "ADANIPORTS", "BAJAJ-AUTO",
-    "UPL", "LTIM", "SHRIRAMFIN",
-    "PIDILITIND", "DABUR", "GODREJCP", "MARICO", "COLPAL", "HAVELLS",
-    "SIEMENS", "DLF", "VEDL", "AMBUJACEM", "ACC", "BANKBARODA", "PNB",
-    "CANBK", "IDFCFIRSTB", "FEDERALBNK", "AUBANK", "PAGEIND", "MUTHOOTFIN",
-    "CHOLAFIN", "LUPIN", "AUROPHARMA", "TORNTPHARM", "ALKEM", "BIOCON",
-    "MOTHERSON", "BOSCHLTD", "TVSMOTOR", "ASHOKLEY", "BHARATFORG",
-    "TRENT", "ZOMATO", "NAUKRI", "DMART", "IRCTC", "INDIGO", "GAIL",
-    "IOC", "PETRONET", "TATAPOWER", "ADANIGREEN", "ADANIPOWER",
-    "JINDALSTEL", "SAIL", "NMDC", "NATIONALUM", "BEL", "HAL", "BHEL",
-    "CONCOR", "PFC", "RECLTD",
+    "RELIANCE", "TCS", "HDFCBANK", "ICICIBANK", "INFY", "HINDUNILVR",
+    "ITC", "SBIN", "BHARTIARTL", "KOTAKBANK", "LT", "AXISBANK",
+    "BAJFINANCE", "ASIANPAINT", "MARUTI", "TITAN", "SUNPHARMA",
+    "ULTRACEMCO", "WIPRO", "NESTLEIND", "HCLTECH", "ADANIENT",
+    "TATASTEEL", "TATAMOTORS", "POWERGRID", "NTPC", "ONGC", "M&M",
+    "JSWSTEEL", "BAJAJFINSV", "TECHM", "INDUSINDBK", "GRASIM", "CIPLA",
+    "DRREDDY", "EICHERMOT", "BRITANNIA", "DIVISLAB", "HEROMOTOCO",
+    "COALINDIA", "BPCL", "HINDALCO", "SBILIFE", "HDFCLIFE", "APOLLOHOSP",
+    "TATACONSUM", "ADANIPORTS", "BAJAJ-AUTO", "UPL", "LTIM",
 ]
 
 
@@ -134,9 +138,38 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def score_stock(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
-    """Apply the swing-trade rule set to the most recent bar.
-    Returns None if there isn't enough history yet, or if nothing matched."""
+def fetch_fundamentals(yf_ticker: str) -> Dict[str, Any]:
+    """Fetch a few basic fundamental fields via yfinance's .info.
+    Returns {} on any failure so a missing/broken fundamentals fetch
+    never crashes the technical screen - it just fails those 3 checks."""
+    try:
+        info = yf.Ticker(yf_ticker).info or {}
+    except Exception:
+        return {}
+    return {
+        "pe": info.get("trailingPE"),
+        "roe": info.get("returnOnEquity"),  # raw fraction, e.g. 0.15 = 15%
+        # yfinance reports debtToEquity pre-scaled by 100 (e.g. 150.0 means
+        # a real debt/equity ratio of 1.5) - NOT a raw ratio like the others.
+        "debt_to_equity": info.get("debtToEquity"),
+    }
+
+
+def fundamental_criteria(fund: Dict[str, Any]) -> Dict[str, bool]:
+    pe = fund.get("pe")
+    roe = fund.get("roe")
+    de = fund.get("debt_to_equity")
+    return {
+        "profitable_reasonable_pe": bool(pe is not None and 0 < pe < 50),
+        "healthy_roe_above_12pct": bool(roe is not None and roe > 0.12),
+        "manageable_debt_to_equity": bool(de is not None and de < 150),
+    }
+
+
+def score_stock(df: pd.DataFrame, fundamentals: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
+    """Apply the combined technical + fundamental rule set to the most
+    recent bar. Returns None if there isn't enough history yet, or if
+    nothing matched."""
     needed = ["SMA50", "RSI14", "MACD", "MACDSignal", "ATR14"]
     if len(df) < 60 or df[needed].iloc[-1].isna().any():
         return None
@@ -152,6 +185,9 @@ def score_stock(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
         "macd_recent_crossover": bool((recent["MACD"] <= recent["MACDSignal"]).any()),
         "volume_above_avg": bool(pd.notna(last["VolAvg20"]) and last["Volume"] > 1.1 * last["VolAvg20"]),
     }
+    fund = fundamentals or {}
+    criteria.update(fundamental_criteria(fund))
+
     score = sum(criteria.values())
     if score == 0:
         return None
@@ -166,11 +202,18 @@ def score_stock(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
     target = round(entry + 2.0 * risk, 2)
     resistance = float(last["SwingHigh20"]) if pd.notna(last["SwingHigh20"]) else None
 
+    pe = fund.get("pe")
+    roe = fund.get("roe")
+    de = fund.get("debt_to_equity")
+
     return {
         "score": score,
         "max_score": len(criteria),
         "close": round(entry, 2),
         "rsi": round(float(last["RSI14"]), 1),
+        "pe": round(pe, 1) if pe is not None else None,
+        "roe_pct": round(roe * 100, 1) if roe is not None else None,
+        "debt_to_equity": round(de / 100, 2) if de is not None else None,
         "stop_loss": stop_loss,
         "target": target,
         "reward_risk": round((target - entry) / risk, 2) if risk > 0 else None,
@@ -190,6 +233,8 @@ def run_screen(tickers: List[str], period: str, min_score: int) -> pd.DataFrame:
         auto_adjust=True, threads=True, progress=False,
     )
 
+    print("Fetching fundamentals (P/E, ROE, debt) - this adds a per-stock "
+          "network call, so it's the slower part of the run...")
     rows = []
     for ticker, yf_ticker in zip(tickers, yf_tickers):
         try:
@@ -197,7 +242,8 @@ def run_screen(tickers: List[str], period: str, min_score: int) -> pd.DataFrame:
             if df is None or df.empty:
                 continue
             ind = compute_indicators(df)
-            result = score_stock(ind)
+            fund = fetch_fundamentals(yf_ticker)
+            result = score_stock(ind, fund)
             if result and result["score"] >= min_score:
                 rows.append({"ticker": ticker, **result})
         except Exception as exc:
@@ -216,7 +262,7 @@ def main():
     parser = argparse.ArgumentParser(description="NSE swing-trade technical screener (educational, not financial advice)")
     parser.add_argument("--tickers", help="CSV file with one NSE symbol per row (no .NS suffix needed)")
     parser.add_argument("--period", default="1y", help="History window for yfinance, e.g. 6mo, 1y, 2y (default 1y)")
-    parser.add_argument("--min-score", type=int, default=4, help="Minimum rule-score out of 6 to include (default 4)")
+    parser.add_argument("--min-score", type=int, default=6, help="Minimum rule-score out of 9 (6 technical + 3 fundamental) to include (default 6)")
     parser.add_argument("--out", default=None, help="Output CSV path (default: timestamped file)")
     args = parser.parse_args()
 
