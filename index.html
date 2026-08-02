@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NSE Swing Screen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F8F3; --stripe: #E9EEE2; --ink: #1C2B22;
+    --ink-muted: #5B6B5E; --green: #1F7A4D; --rust: #A13D2B; --rule: #C9D2C0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; padding: 0 0 4rem;
+  }
+  .masthead { padding: 2.5rem 1.25rem 1.75rem; text-align: center; border-bottom: 1px solid var(--rule); }
+  .sprockets { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
+  .sprockets span { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); }
+  .masthead h1 {
+    font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; letter-spacing: 0.08em;
+    text-transform: uppercase; margin: 0 0 0.6rem; font-weight: 700;
+  }
+  .masthead .meta { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); }
+  .rule-note { max-width: 460px; margin: 1.1rem auto 0; font-size: 0.8rem; color: var(--ink-muted); line-height: 1.55; }
+  .cards { max-width: 480px; margin: 1.5rem auto 0; padding: 0 1.25rem; display: flex; flex-direction: column; gap: 12px; }
+  .card { background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.1rem; }
+  .card:nth-child(even) { background: var(--stripe); }
+  .card-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem; }
+  .ticker { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.02em; }
+  .score { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); }
+  .levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 0.7rem; }
+  .level { text-align: center; }
+  .level .label { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 2px; }
+  .level .value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.95rem; }
+  .level.stop .value { color: var(--rust); }
+  .level.target .value { color: var(--green); }
+  .fundamentals {
+    display: flex; gap: 14px; font-size: 0.72rem; color: var(--ink-muted);
+    border-top: 1px dashed var(--rule); padding-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace; flex-wrap: wrap;
+  }
+  .empty { max-width: 420px; margin: 3rem auto 0; padding: 0 1.25rem; text-align: center; color: var(--ink-muted); line-height: 1.6; }
+  .empty-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--ink); }
+  .footer {
+    max-width: 480px; margin: 2.5rem auto 0; padding: 1rem 1.25rem 0; font-size: 0.72rem;
+    color: var(--ink-muted); line-height: 1.6; border-top: 1px solid var(--rule);
+  }
+</style>
+</head>
+<body>
+  <div class="masthead">
+    <div class="sprockets"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <h1>NSE Swing Screen</h1>
+    <div class="meta">02 Aug 2026, 15:09 IST &middot; 23 of 50 stocks cleared the bar</div>
+    <div class="rule-note">Target is always set 2x farther from the buy price than the stop-loss (2:1 reward-to-risk). Score out of 9: 6 technical checks plus 3 fundamental sanity checks.</div>
+  </div>
+  <div class="cards">
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">BHARTIARTL</span>
+            <span class="score">8/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1926.08</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1972.0</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹2063.84</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 67.2</span>
+            <span>P/E 44.4</span>
+            <span>ROE 19.4%</span>
+            <span>D/E 1.0</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">SUNPHARMA</span>
+            <span class="score">8/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1939.3</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1990.5</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹2092.9</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 66.9</span>
+            <span>P/E 39.5</span>
+            <span>ROE —</span>
+            <span>D/E 0.06</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">MARUTI</span>
+            <span class="score">8/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹13799.19</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹14234.0</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹15103.62</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 61.7</span>
+            <span>P/E 31.2</span>
+            <span>ROE —</span>
+            <span>D/E 0.0</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">M&M</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹3266.7</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹3398.5</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹3662.1</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 67.0</span>
+            <span>P/E 20.7</span>
+            <span>ROE —</span>
+            <span>D/E 1.25</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">EICHERMOT</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹7599.11</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹7833.5</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹8302.28</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 66.2</span>
+            <span>P/E 37.3</span>
+            <span>ROE —</span>
+            <span>D/E 0.02</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">ULTRACEMCO</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹11591.47</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹11903.0</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹12526.06</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 64.1</span>
+            <span>P/E 41.0</span>
+            <span>ROE —</span>
+            <span>D/E 0.29</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">TCS</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹2264.66</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹2365.6</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹2567.48</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 62.7</span>
+            <span>P/E 17.2</span>
+            <span>ROE 47.7%</span>
+            <span>D/E 0.1</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">CIPLA</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1425.77</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1473.2</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1568.06</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 61.5</span>
+            <span>P/E 35.3</span>
+            <span>ROE —</span>
+            <span>D/E 0.02</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">BRITANNIA</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹5270.64</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹5416.5</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹5708.22</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 61.1</span>
+            <span>P/E 51.5</span>
+            <span>ROE 53.3%</span>
+            <span>D/E 0.27</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">WIPRO</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹177.56</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹183.65</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹195.83</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 60.8</span>
+            <span>P/E 14.6</span>
+            <span>ROE 16.1%</span>
+            <span>D/E 0.27</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">BPCL</span>
+            <span class="score">7/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹308.57</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹319.75</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹342.11</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 58.4</span>
+            <span>P/E 8.0</span>
+            <span>ROE —</span>
+            <span>D/E 0.54</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">HCLTECH</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1291.72</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1346.9</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1457.26</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 75.0</span>
+            <span>P/E 21.0</span>
+            <span>ROE 24.1%</span>
+            <span>D/E 0.07</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">HEROMOTOCO</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹5220.9</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹5386.0</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹5716.2</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 74.5</span>
+            <span>P/E 18.8</span>
+            <span>ROE 28.0%</span>
+            <span>D/E 0.04</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">BAJFINANCE</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1096.77</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1141.2</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1230.06</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 74.1</span>
+            <span>P/E 35.1</span>
+            <span>ROE —</span>
+            <span>D/E 3.15</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">BAJAJFINSV</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1961.06</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹2029.1</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹2165.18</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 72.0</span>
+            <span>P/E 32.2</span>
+            <span>ROE —</span>
+            <span>D/E 2.56</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">TECHM</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1582.06</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1651.3</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1789.78</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 71.9</span>
+            <span>P/E 28.6</span>
+            <span>ROE —</span>
+            <span>D/E 0.07</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">NESTLEIND</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1459.15</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1509.6</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1610.5</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 63.9</span>
+            <span>P/E 76.3</span>
+            <span>ROE —</span>
+            <span>D/E 0.09</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">APOLLOHOSP</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹8772.51</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹8957.0</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹9325.98</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 61.9</span>
+            <span>P/E 66.2</span>
+            <span>ROE 21.5%</span>
+            <span>D/E 0.85</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">ASIANPAINT</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹2659.39</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹2747.3</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹2923.12</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 60.1</span>
+            <span>P/E 55.2</span>
+            <span>ROE —</span>
+            <span>D/E 0.18</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">ICICIBANK</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1400.3</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1435.4</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1505.6</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 59.4</span>
+            <span>P/E 18.6</span>
+            <span>ROE 16.1%</span>
+            <span>D/E —</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">INFY</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1077.65</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1130.1</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1235.0</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 57.7</span>
+            <span>P/E 14.6</span>
+            <span>ROE 32.0%</span>
+            <span>D/E 0.1</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">RELIANCE</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1275.46</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1307.8</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1372.48</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 53.4</span>
+            <span>P/E 23.7</span>
+            <span>ROE —</span>
+            <span>D/E 0.37</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">SBIN</span>
+            <span class="score">6/9</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">₹1001.01</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">₹1027.4</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">₹1080.18</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI 50.9</span>
+            <span>P/E 11.3</span>
+            <span>ROE 15.5%</span>
+            <span>D/E —</span>
+          </div>
+        </div></div>
+  <div class="footer">
+    Mechanical rule-based screen, not financial advice. Not a SEBI-registered adviser - verify independently before risking money. Fundamentals are rough, free-data sanity checks, not full research.
+  </div>
+</body>
+</html>
