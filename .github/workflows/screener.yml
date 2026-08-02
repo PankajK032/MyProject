@@ -2,7 +2,7 @@ name: Daily Swing Trade Screen
 
 on:
   schedule:
-    - cron: '0 11 * * 1-5'   # 11:00 UTC = 4:30 PM IST, Mon-Fri (after NSE close)
+    - cron: '30 3 * * 1-5'   # 03:30 UTC = 9:00 AM IST, Mon-Fri (before NSE pre-open)
   workflow_dispatch:          # lets you click "Run workflow" manually any time
 
 concurrency:
