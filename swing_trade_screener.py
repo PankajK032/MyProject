@@ -258,6 +258,118 @@ def run_screen(tickers: List[str], period: str, min_score: int) -> pd.DataFrame:
     return out
 
 
+def generate_html_report(df: pd.DataFrame, total_screened: int, run_date: str) -> str:
+    """Render results as a small, self-contained HTML report - no JS, no
+    external data calls at view-time - suitable for GitHub Pages. Fonts
+    load from Google Fonts at view-time (fine for a real hosted page)."""
+
+    def fmt(v, suffix=""):
+        if v is None or (isinstance(v, float) and pd.isna(v)):
+            return "—"
+        return f"{v}{suffix}"
+
+    sprockets = "".join("<span></span>" for _ in range(10))
+
+    if df.empty:
+        section = """
+        <div class="empty">
+          <p class="empty-tag">NO SIGNALS TODAY</p>
+          <p>No stock cleared the bar on this run. That means the rules found
+          nothing worth flagging - not that something broke. Check back after
+          the next run.</p>
+        </div>"""
+        count_line = f"0 of {total_screened} stocks cleared the bar"
+    else:
+        cards = []
+        for _, r in df.iterrows():
+            cards.append(f"""
+        <div class="card">
+          <div class="card-top">
+            <span class="ticker">{r['ticker']}</span>
+            <span class="score">{int(r['score'])}/{int(r['max_score'])}</span>
+          </div>
+          <div class="levels">
+            <div class="level stop"><div class="label">Stop-loss</div><div class="value">\u20b9{fmt(r.get('stop_loss'))}</div></div>
+            <div class="level"><div class="label">Buy</div><div class="value">\u20b9{fmt(r.get('close'))}</div></div>
+            <div class="level target"><div class="label">Target</div><div class="value">\u20b9{fmt(r.get('target'))}</div></div>
+          </div>
+          <div class="fundamentals">
+            <span>RSI {fmt(r.get('rsi'))}</span>
+            <span>P/E {fmt(r.get('pe'))}</span>
+            <span>ROE {fmt(r.get('roe_pct'), '%')}</span>
+            <span>D/E {fmt(r.get('debt_to_equity'))}</span>
+          </div>
+        </div>""")
+        section = f'<div class="cards">{"".join(cards)}</div>'
+        count_line = f"{len(df)} of {total_screened} stocks cleared the bar"
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NSE Swing Screen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {{
+    --paper: #F7F8F3; --stripe: #E9EEE2; --ink: #1C2B22;
+    --ink-muted: #5B6B5E; --green: #1F7A4D; --rust: #A13D2B; --rule: #C9D2C0;
+  }}
+  * {{ box-sizing: border-box; }}
+  body {{
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; padding: 0 0 4rem;
+  }}
+  .masthead {{ padding: 2.5rem 1.25rem 1.75rem; text-align: center; border-bottom: 1px solid var(--rule); }}
+  .sprockets {{ display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }}
+  .sprockets span {{ width: 6px; height: 6px; border-radius: 50%; background: var(--rule); }}
+  .masthead h1 {{
+    font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; letter-spacing: 0.08em;
+    text-transform: uppercase; margin: 0 0 0.6rem; font-weight: 700;
+  }}
+  .masthead .meta {{ font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); }}
+  .rule-note {{ max-width: 460px; margin: 1.1rem auto 0; font-size: 0.8rem; color: var(--ink-muted); line-height: 1.55; }}
+  .cards {{ max-width: 480px; margin: 1.5rem auto 0; padding: 0 1.25rem; display: flex; flex-direction: column; gap: 12px; }}
+  .card {{ background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.1rem; }}
+  .card:nth-child(even) {{ background: var(--stripe); }}
+  .card-top {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem; }}
+  .ticker {{ font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.02em; }}
+  .score {{ font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); }}
+  .levels {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 0.7rem; }}
+  .level {{ text-align: center; }}
+  .level .label {{ font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 2px; }}
+  .level .value {{ font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.95rem; }}
+  .level.stop .value {{ color: var(--rust); }}
+  .level.target .value {{ color: var(--green); }}
+  .fundamentals {{
+    display: flex; gap: 14px; font-size: 0.72rem; color: var(--ink-muted);
+    border-top: 1px dashed var(--rule); padding-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace; flex-wrap: wrap;
+  }}
+  .empty {{ max-width: 420px; margin: 3rem auto 0; padding: 0 1.25rem; text-align: center; color: var(--ink-muted); line-height: 1.6; }}
+  .empty-tag {{ font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--ink); }}
+  .footer {{
+    max-width: 480px; margin: 2.5rem auto 0; padding: 1rem 1.25rem 0; font-size: 0.72rem;
+    color: var(--ink-muted); line-height: 1.6; border-top: 1px solid var(--rule);
+  }}
+</style>
+</head>
+<body>
+  <div class="masthead">
+    <div class="sprockets">{sprockets}</div>
+    <h1>NSE Swing Screen</h1>
+    <div class="meta">{run_date} IST &middot; {count_line}</div>
+    <div class="rule-note">Target is always set 2x farther from the buy price than the stop-loss (2:1 reward-to-risk). Score out of 9: 6 technical checks plus 3 fundamental sanity checks.</div>
+  </div>
+  {section}
+  <div class="footer">
+    Mechanical rule-based screen, not financial advice. Not a SEBI-registered adviser - verify independently before risking money. Fundamentals are rough, free-data sanity checks, not full research.
+  </div>
+</body>
+</html>"""
+
+
 def main():
     parser = argparse.ArgumentParser(description="NSE swing-trade technical screener (educational, not financial advice)")
     parser.add_argument("--tickers", help="CSV file with one NSE symbol per row (no .NS suffix needed)")
@@ -274,15 +386,19 @@ def main():
     print("Verify independently before risking money. Markets can lose you money.")
     print("=" * 72 + "\n")
 
-    if results.empty:
+    if not results.empty:
+        print(results.to_string())
+    else:
         print("No stocks met the minimum score this run. Try a lower --min-score.")
-        return
-
-    print(results.to_string())
 
     out_path = args.out or f"swing_screen_{datetime.now():%Y%m%d_%H%M}.csv"
     results.to_csv(out_path)
     print(f"\nSaved {len(results)} result(s) to {out_path}")
+
+    html = generate_html_report(results, len(tickers), datetime.now().strftime("%d %b %Y, %H:%M"))
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    print("Wrote index.html (open it in a browser, or publish via GitHub Pages)")
 
 
 if __name__ == "__main__":
