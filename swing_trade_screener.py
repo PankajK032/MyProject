@@ -61,7 +61,10 @@ Available For Trading) and save the symbol column as a one-column CSV
 """
 
 import argparse
+import os
 import sys
+import urllib.parse
+import urllib.request
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 
@@ -370,6 +373,55 @@ def generate_html_report(df: pd.DataFrame, total_screened: int, run_date: str) -
 </html>"""
 
 
+def format_telegram_summary(df: pd.DataFrame, total_screened: int, run_date: str, max_lines: int = 15) -> str:
+    """Plain-text (HTML-lite) summary suitable for a Telegram message.
+    Capped at max_lines stocks so a big pass-count can never exceed
+    Telegram's 4096-character message limit."""
+    header = f"<b>NSE Swing Screen</b> \u2014 {run_date} IST"
+    if df.empty:
+        return f"{header}\n0 of {total_screened} stocks cleared the bar today. No signals, nothing to act on."
+
+    shown = df.head(max_lines)
+    parts = [header, f"{len(df)} of {total_screened} stocks cleared the bar:"]
+    for _, r in shown.iterrows():
+        parts.append(
+            f"\n<b>{r['ticker']}</b>  ({int(r['score'])}/{int(r['max_score'])})\n"
+            f"Buy \u20b9{r['close']}  |  SL \u20b9{r['stop_loss']}  |  Target \u20b9{r['target']}"
+        )
+    if len(df) > max_lines:
+        parts.append(f"\n+ {len(df) - max_lines} more \u2014 see the full report on GitHub.")
+    parts.append("\nMechanical rule-based screen, not financial advice.")
+    return "\n".join(parts)
+
+
+def send_telegram_message(text: str) -> None:
+    """Send a message via a Telegram bot, if TELEGRAM_BOT_TOKEN and
+    TELEGRAM_CHAT_ID are set as environment variables. Silently skips
+    (with a printed note) if not configured, and never raises - a failed
+    notification should never cause the screen itself to fail."""
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    if not token or not chat_id:
+        print("Telegram not configured (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not set) - skipping notification.")
+        return
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    data = urllib.parse.urlencode({
+        "chat_id": chat_id,
+        "text": text,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": "true",
+    }).encode()
+
+    try:
+        request = urllib.request.Request(url, data=data, method="POST")
+        with urllib.request.urlopen(request, timeout=15) as resp:
+            resp.read()
+        print("Telegram notification sent.")
+    except Exception as exc:
+        print(f"Telegram notification failed (results are still saved to CSV/HTML): {exc}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="NSE swing-trade technical screener (educational, not financial advice)")
     parser.add_argument("--tickers", help="CSV file with one NSE symbol per row (no .NS suffix needed)")
@@ -399,6 +451,9 @@ def main():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
     print("Wrote index.html (open it in a browser, or publish via GitHub Pages)")
+
+    telegram_text = format_telegram_summary(results, len(tickers), datetime.now().strftime("%d %b %Y, %H:%M"))
+    send_telegram_message(telegram_text)
 
 
 if __name__ == "__main__":
