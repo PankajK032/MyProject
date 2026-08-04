@@ -79,10 +79,14 @@ except ImportError:
 
 NSE_SUFFIX = ".NS"
 
-# The 50 largest/most liquid NSE names (roughly Nifty 50) - trimmed down
-# from a longer list so a full run finishes faster. Not a guaranteed-current
-# index list - verify against niftyindices.com if exact constituents matter,
-# or supply your own (bigger or smaller) list with --tickers.
+# The 50 largest/most liquid NSE names (roughly Nifty 50), plus a batch of
+# other liquid names that tend to trade at lower absolute share prices
+# (many PSU banks, PSU energy/metals, etc.) - added specifically so a
+# --max-price filter has more to actually choose from, since big NSE
+# companies often carry high per-share prices regardless of quality.
+# Not a guaranteed-current index list, and NOT a guarantee any of these are
+# actually under a given price today - verify against niftyindices.com if
+# exact constituents matter, or supply your own list with --tickers.
 DEFAULT_TICKERS = [
     "RELIANCE", "TCS", "HDFCBANK", "ICICIBANK", "INFY", "HINDUNILVR",
     "ITC", "SBIN", "BHARTIARTL", "KOTAKBANK", "LT", "AXISBANK",
@@ -93,6 +97,11 @@ DEFAULT_TICKERS = [
     "DRREDDY", "EICHERMOT", "BRITANNIA", "DIVISLAB", "HEROMOTOCO",
     "COALINDIA", "BPCL", "HINDALCO", "SBILIFE", "HDFCLIFE", "APOLLOHOSP",
     "TATACONSUM", "ADANIPORTS", "BAJAJ-AUTO", "UPL", "LTIM",
+    # typically lower-priced additions (verify live, not guaranteed):
+    "BANKBARODA", "PNB", "CANBK", "IDFCFIRSTB", "FEDERALBNK", "AUBANK",
+    "GAIL", "IOC", "PETRONET", "TATAPOWER", "ADANIPOWER", "JINDALSTEL",
+    "SAIL", "NMDC", "NATIONALUM", "BHEL", "CONCOR", "PFC", "RECLTD",
+    "VEDL", "ASHOKLEY", "MOTHERSON", "ZOMATO", "IRCTC", "BEL",
 ]
 
 
