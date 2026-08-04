@@ -169,15 +169,19 @@ def fundamental_criteria(fund: Dict[str, Any]) -> Dict[str, bool]:
     }
 
 
-def score_stock(df: pd.DataFrame, fundamentals: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
+def score_stock(df: pd.DataFrame, fundamentals: Optional[Dict[str, Any]] = None, max_price: Optional[float] = None) -> Optional[Dict[str, Any]]:
     """Apply the combined technical + fundamental rule set to the most
-    recent bar. Returns None if there isn't enough history yet, or if
-    nothing matched."""
+    recent bar. Returns None if there isn't enough history yet, if the
+    price is above max_price (when set), or if nothing matched."""
     needed = ["SMA50", "RSI14", "MACD", "MACDSignal", "ATR14"]
     if len(df) < 60 or df[needed].iloc[-1].isna().any():
         return None
 
     last = df.iloc[-1]
+    entry = float(last["Close"])
+    if max_price is not None and entry >= max_price:
+        return None
+
     recent = df.iloc[-6:-1]  # the 5 bars before today
 
     criteria = {
@@ -195,7 +199,6 @@ def score_stock(df: pd.DataFrame, fundamentals: Optional[Dict[str, Any]] = None)
     if score == 0:
         return None
 
-    entry = float(last["Close"])
     atr = float(last["ATR14"]) if pd.notna(last["ATR14"]) else None
     if not atr or atr <= 0:
         return None
@@ -225,7 +228,7 @@ def score_stock(df: pd.DataFrame, fundamentals: Optional[Dict[str, Any]] = None)
     }
 
 
-def run_screen(tickers: List[str], period: str, min_score: int) -> pd.DataFrame:
+def run_screen(tickers: List[str], period: str, min_score: int, max_price: Optional[float] = None) -> pd.DataFrame:
     if yf is None:
         sys.exit("yfinance is not installed. Run: pip install -r requirements.txt")
 
@@ -246,7 +249,7 @@ def run_screen(tickers: List[str], period: str, min_score: int) -> pd.DataFrame:
                 continue
             ind = compute_indicators(df)
             fund = fetch_fundamentals(yf_ticker)
-            result = score_stock(ind, fund)
+            result = score_stock(ind, fund, max_price)
             if result and result["score"] >= min_score:
                 rows.append({"ticker": ticker, **result})
         except Exception as exc:
@@ -261,7 +264,7 @@ def run_screen(tickers: List[str], period: str, min_score: int) -> pd.DataFrame:
     return out
 
 
-def generate_html_report(df: pd.DataFrame, total_screened: int, run_date: str) -> str:
+def generate_html_report(df: pd.DataFrame, total_screened: int, run_date: str, max_price: Optional[float] = None) -> str:
     """Render results as a small, self-contained HTML report - no JS, no
     external data calls at view-time - suitable for GitHub Pages. Fonts
     load from Google Fonts at view-time (fine for a real hosted page)."""
@@ -272,6 +275,7 @@ def generate_html_report(df: pd.DataFrame, total_screened: int, run_date: str) -
         return f"{v}{suffix}"
 
     sprockets = "".join("<span></span>" for _ in range(10))
+    price_note = f" Only stocks under \u20b9{max_price:g} are considered." if max_price else ""
 
     if df.empty:
         section = """
@@ -363,7 +367,7 @@ def generate_html_report(df: pd.DataFrame, total_screened: int, run_date: str) -
     <div class="sprockets">{sprockets}</div>
     <h1>NSE Swing Screen</h1>
     <div class="meta">{run_date} IST &middot; {count_line}</div>
-    <div class="rule-note">Target is always set 2x farther from the buy price than the stop-loss (2:1 reward-to-risk). Score out of 9: 6 technical checks plus 3 fundamental sanity checks.</div>
+    <div class="rule-note">Target is always set 2x farther from the buy price than the stop-loss (2:1 reward-to-risk). Score out of 9: 6 technical checks plus 3 fundamental sanity checks.{price_note}</div>
   </div>
   {section}
   <div class="footer">
@@ -427,11 +431,13 @@ def main():
     parser.add_argument("--tickers", help="CSV file with one NSE symbol per row (no .NS suffix needed)")
     parser.add_argument("--period", default="1y", help="History window for yfinance, e.g. 6mo, 1y, 2y (default 1y)")
     parser.add_argument("--min-score", type=int, default=6, help="Minimum rule-score out of 9 (6 technical + 3 fundamental) to include (default 6)")
+    parser.add_argument("--max-price", type=float, default=1000.0, help="Only include stocks trading below this price in rupees (default 1000; use 0 for no cap)")
     parser.add_argument("--out", default=None, help="Output CSV path (default: timestamped file)")
     args = parser.parse_args()
 
     tickers = load_ticker_list(args.tickers)
-    results = run_screen(tickers, args.period, args.min_score)
+    max_price = None if args.max_price <= 0 else args.max_price
+    results = run_screen(tickers, args.period, args.min_score, max_price)
 
     print("\n" + "=" * 72)
     print("MECHANICAL TECHNICAL SCREEN ONLY - NOT FINANCIAL ADVICE.")
@@ -447,7 +453,7 @@ def main():
     results.to_csv(out_path)
     print(f"\nSaved {len(results)} result(s) to {out_path}")
 
-    html = generate_html_report(results, len(tickers), datetime.now().strftime("%d %b %Y, %H:%M"))
+    html = generate_html_report(results, len(tickers), datetime.now().strftime("%d %b %Y, %H:%M"), max_price)
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
     print("Wrote index.html (open it in a browser, or publish via GitHub Pages)")
