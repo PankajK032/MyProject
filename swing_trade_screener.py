@@ -462,14 +462,6 @@ def main():
     results.to_csv(out_path)
     print(f"\nSaved {len(results)} result(s) to {out_path}")
 
-    # JSON for the static Next.js dashboard to fetch directly (client-side,
-    # via the repo's raw content URL - no backend needed). Using pandas' own
-    # to_json rather than a manual dict conversion, since it correctly turns
-    # missing values (NaN) into JSON null instead of invalid NaN literals.
-    with open("latest_screen.json", "w", encoding="utf-8") as f:
-        f.write(results.to_json(orient="records", indent=2))
-    print("Wrote latest_screen.json (for the dashboard)")
-
     html = generate_html_report(results, len(tickers), datetime.now().strftime("%d %b %Y, %H:%M"), max_price)
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
