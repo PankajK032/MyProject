@@ -37,19 +37,19 @@ export default function StockCard({ stock }: { stock: StockResult }) {
         <div>
           <div className="text-[10px] uppercase tracking-wide text-ink-faint">Stop-loss</div>
           <div className="tabular font-mono text-sm font-semibold text-signal-rust">
-            \u20b9{fmt(stock.stop_loss)}
+            ₹{fmt(stock.stop_loss)}
           </div>
         </div>
         <div>
           <div className="text-[10px] uppercase tracking-wide text-ink-faint">Buy</div>
           <div className="tabular font-mono text-sm font-semibold text-ink-primary">
-            \u20b9{fmt(stock.close)}
+            ₹{fmt(stock.close)}
           </div>
         </div>
         <div>
           <div className="text-[10px] uppercase tracking-wide text-ink-faint">Target</div>
           <div className="tabular font-mono text-sm font-semibold text-signal-green">
-            \u20b9{fmt(stock.target)}
+            ₹{fmt(stock.target)}
           </div>
         </div>
       </div>
