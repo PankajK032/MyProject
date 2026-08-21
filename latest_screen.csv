@@ -1,6 +1,8 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,PETRONET,7,9,289.85,63.3,10.3,,0.11,280.74,308.07,2.0,289.85,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
-2,WIPRO,7,9,181.34,49.8,14.3,16.1,0.27,176.18,191.66,2.0,188.66,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
-3,PNB,6,9,117.94,65.9,6.1,15.0,,114.86,124.1,2.0,118.98,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, healthy_roe_above_12pct"
-4,NATIONALUM,6,9,390.6,58.5,10.6,,0.0,372.16,427.48,2.0,420.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, manageable_debt_to_equity"
-5,CONCOR,6,9,514.35,54.7,31.7,,0.07,495.97,551.11,2.0,533.65,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+1,WIPRO,7,9,181.18,49.5,14.3,16.1,0.27,176.21,191.12,2.0,188.66,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
+2,MOTHERSON,6,9,168.16,68.0,40.4,,0.44,161.98,180.52,2.0,170.4,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, manageable_debt_to_equity"
+3,PETRONET,6,9,293.15,66.2,10.5,,0.11,284.05,311.35,2.0,293.15,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, manageable_debt_to_equity"
+4,KOTAKBANK,6,9,402.65,61.8,19.4,,,392.17,423.61,2.0,402.65,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe"
+5,NATIONALUM,6,9,393.85,59.9,10.7,,0.0,375.49,430.57,2.0,420.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, manageable_debt_to_equity"
+6,SAIL,6,9,175.19,56.0,16.7,,0.53,166.92,191.73,2.0,176.74,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, manageable_debt_to_equity"
+7,CONCOR,6,9,515.6,55.3,31.5,,0.07,496.92,552.96,2.0,533.65,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
