@@ -1,1 +1,11 @@
-""
+,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
+1,WIPRO,8,9,180.95,50.6,14.4,16.1,0.27,175.82,191.21,2.0,188.66,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
+2,VEDL,7,9,287.95,59.6,12.6,,0.48,275.76,312.33,2.0,287.95,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+3,NMDC,7,9,86.76,55.6,10.2,,0.19,83.73,92.82,2.0,88.21,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+4,BPCL,7,9,319.25,55.3,8.0,,0.54,309.34,339.07,2.0,329.95,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+5,CONCOR,7,9,516.0,53.3,31.5,,0.07,495.51,556.98,2.0,533.65,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+6,SAIL,6,9,200.0,74.6,19.3,,0.53,189.95,220.1,2.0,200.0,"uptrend_vs_sma50, sma20_above_sma50, macd_above_signal, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+7,MOTHERSON,6,9,165.6,59.7,39.8,,0.44,159.99,176.82,2.0,170.4,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+8,PNB,6,9,115.4,54.1,6.0,15.0,,112.32,121.56,2.0,118.98,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
+9,TATASTEEL,6,9,186.5,48.8,21.1,,0.89,180.72,198.06,2.0,192.99,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+10,IDFCFIRSTB,6,9,83.12,45.2,32.1,,,80.95,87.46,2.0,86.75,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
