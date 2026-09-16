@@ -1,4 +1,4 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,IDFCFIRSTB,6,9,85.51,51.3,33.0,,,83.19,90.15,2.0,87.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
-2,PNB,6,9,115.32,50.0,6.0,15.0,,112.06,121.84,2.0,118.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
-3,HDFCBANK,6,9,717.1,48.9,15.7,13.8,,697.05,757.2,2.0,729.0,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, healthy_roe_above_12pct"
+1,PNB,7,9,116.93,55.6,6.2,15.0,,113.76,123.27,2.0,118.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, healthy_roe_above_12pct"
+2,COALINDIA,6,9,422.8,59.4,8.5,,0.12,411.68,445.04,2.0,432.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, manageable_debt_to_equity"
+3,PETRONET,6,9,283.85,45.9,10.1,,0.11,274.61,302.33,2.0,300.6,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
