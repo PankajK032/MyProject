@@ -1,6 +1,6 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,SAIL,7,9,186.08,56.2,16.9,,0.53,176.86,204.52,2.0,200.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
-2,PNB,7,9,117.35,54.8,6.0,15.0,,114.25,123.55,2.0,118.3,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
-3,MOTHERSON,7,9,164.22,54.0,39.5,,0.44,158.72,175.22,2.0,170.68,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
-4,COALINDIA,7,9,419.65,52.9,8.0,,0.12,408.06,442.83,2.0,432.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
-5,PETRONET,6,9,286.1,49.6,10.2,,0.11,277.07,304.16,2.0,300.6,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+1,COALINDIA,7,9,425.8,57.8,8.5,,0.12,414.47,448.46,2.0,432.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+2,MOTHERSON,6,9,165.91,56.7,40.3,,0.44,160.21,177.31,2.0,170.68,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+3,SAIL,6,9,185.63,55.5,18.1,,0.53,176.71,203.47,2.0,197.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+4,PNB,6,9,116.66,51.9,6.1,15.0,,113.59,122.8,2.0,118.3,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
+5,PETRONET,6,9,285.4,48.7,10.2,,0.11,276.91,302.38,2.0,300.6,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
