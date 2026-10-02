@@ -1,4 +1,4 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,KOTAKBANK,6,9,418.35,57.6,20.5,,,405.15,444.75,2.0,424.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
+1,KOTAKBANK,6,9,418.35,57.6,20.4,,,405.15,444.75,2.0,424.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
 2,BHEL,6,9,421.0,49.7,60.3,,0.31,402.83,457.34,2.0,439.9,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, manageable_debt_to_equity"
-3,PETRONET,6,9,285.5,49.0,10.2,,0.11,276.78,302.94,2.0,292.6,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+3,PETRONET,6,9,285.5,49.0,10.1,,0.11,276.78,302.94,2.0,292.6,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
