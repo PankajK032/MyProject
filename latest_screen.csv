@@ -1,5 +1,6 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,PETRONET,8,9,290.0,54.3,10.3,,0.11,281.0,308.0,2.0,292.6,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
-2,COALINDIA,6,9,425.1,55.8,8.4,,0.12,413.21,448.88,2.0,432.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
-3,KOTAKBANK,6,9,416.0,54.9,20.4,,,402.6,442.8,2.0,422.1,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
-4,BHEL,6,9,429.0,54.4,61.4,,0.31,410.8,465.4,2.0,439.9,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, manageable_debt_to_equity"
+1,PETRONET,8,9,297.5,61.4,10.6,,0.11,288.3,315.9,2.0,297.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+2,KOTAKBANK,7,9,431.9,66.1,21.2,,,417.39,460.92,2.0,431.9,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
+3,BHEL,7,9,452.0,65.4,64.7,,0.31,433.41,489.18,2.0,452.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, manageable_debt_to_equity"
+4,ITC,6,9,266.7,51.5,16.8,,0.03,259.03,282.04,2.0,270.15,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+5,SAIL,6,9,178.1,49.5,17.2,,0.53,169.3,195.7,2.0,183.99,"uptrend_vs_sma50, rsi_in_range_45_68, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
