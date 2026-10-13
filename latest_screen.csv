@@ -1,6 +1,8 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,PETRONET,7,9,290.5,52.3,10.4,,0.11,280.92,309.66,2.0,297.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
-2,HDFCLIFE,6,9,559.25,59.0,61.1,10.8,0.16,537.2,603.35,2.0,561.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, manageable_debt_to_equity"
-3,BHEL,6,9,439.9,56.3,62.9,,0.31,419.43,480.84,2.0,452.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, manageable_debt_to_equity"
-4,PNB,6,9,116.0,53.0,6.0,15.0,,111.8,124.4,2.0,118.3,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
-5,VEDL,6,9,264.9,50.7,11.1,,0.48,253.19,288.32,2.0,271.0,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+1,BHEL,7,9,442.35,57.2,63.3,,0.31,421.01,485.03,2.0,452.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, manageable_debt_to_equity"
+2,PETRONET,7,9,290.0,51.8,10.3,,0.11,280.66,308.68,2.0,297.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+3,KOTAKBANK,6,9,439.0,65.9,21.6,,,424.65,467.7,2.0,441.0,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe"
+4,HDFCLIFE,6,9,560.0,59.2,61.5,10.8,0.16,537.68,604.64,2.0,561.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, manageable_debt_to_equity"
+5,WIPRO,6,9,169.0,54.8,13.4,16.1,0.27,162.91,181.18,2.0,170.0,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
+6,PNB,6,9,116.55,54.6,6.0,15.0,,112.4,124.85,2.0,118.3,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
+7,VEDL,6,9,256.3,45.1,10.8,,0.48,244.22,280.46,2.0,271.0,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
