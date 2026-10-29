@@ -1,3 +1,6 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,WIPRO,6,9,184.75,63.0,14.5,15.9,0.28,177.18,199.89,2.0,190.41,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
-2,PNB,6,9,120.73,58.1,6.1,15.1,,116.19,129.81,2.0,122.5,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, healthy_roe_above_12pct"
+1,WIPRO,7,9,190.1,67.8,14.9,15.9,0.28,182.44,205.42,2.0,190.41,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
+2,PNB,7,9,123.9,63.9,6.2,15.1,,119.23,133.24,2.0,123.9,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, volume_above_avg, profitable_reasonable_pe, healthy_roe_above_12pct"
+3,KOTAKBANK,6,9,459.0,68.0,21.2,11.8,,443.71,489.58,2.0,459.0,"uptrend_vs_sma50, sma20_above_sma50, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
+4,ITC,6,9,265.0,52.8,16.7,,0.03,255.89,283.22,2.0,268.9,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+5,ADANIPOWER,6,9,191.2,47.5,20.2,27.0,0.8,181.0,211.6,2.0,204.0,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
