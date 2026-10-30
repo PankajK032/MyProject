@@ -1,6 +1,7 @@
 ,ticker,score,max_score,close,rsi,pe,roe_pct,debt_to_equity,stop_loss,target,reward_risk,resistance_20d,criteria_met
-1,WIPRO,7,9,190.1,67.8,14.9,15.9,0.28,182.44,205.42,2.0,190.41,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
-2,PNB,7,9,123.9,63.9,6.2,15.1,,119.23,133.24,2.0,123.9,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, volume_above_avg, profitable_reasonable_pe, healthy_roe_above_12pct"
-3,KOTAKBANK,6,9,459.0,68.0,21.2,11.8,,443.71,489.58,2.0,459.0,"uptrend_vs_sma50, sma20_above_sma50, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe"
-4,ITC,6,9,265.0,52.8,16.7,,0.03,255.89,283.22,2.0,268.9,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
-5,ADANIPOWER,6,9,191.2,47.5,20.2,27.0,0.8,181.0,211.6,2.0,204.0,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
+1,WIPRO,7,9,198.31,73.7,15.6,15.9,0.28,190.32,214.29,2.0,198.31,"uptrend_vs_sma50, sma20_above_sma50, macd_above_signal, volume_above_avg, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
+2,PNB,6,9,122.85,60.8,6.2,15.1,,118.23,132.09,2.0,123.9,"uptrend_vs_sma50, sma20_above_sma50, rsi_in_range_45_68, macd_above_signal, profitable_reasonable_pe, healthy_roe_above_12pct"
+3,ITC,6,9,265.6,53.5,16.8,,0.03,256.58,283.64,2.0,268.9,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, manageable_debt_to_equity"
+4,NTPC,6,9,316.25,53.4,11.0,,1.28,305.53,337.69,2.0,321.8,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+5,GAIL,6,9,167.91,48.8,11.2,,0.28,162.07,179.59,2.0,172.08,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+6,ADANIPOWER,6,9,189.0,45.4,20.0,27.0,0.8,179.05,208.9,2.0,202.4,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
