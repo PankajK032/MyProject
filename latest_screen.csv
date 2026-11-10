@@ -21,4 +21,4 @@
 20,RECLTD,6,9,305.15,57.3,5.3,16.9,6.06,292.94,329.57,2.0,308.12,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct"
 21,IRCTC,6,9,459.95,54.1,26.4,,0.02,443.31,493.23,2.0,477.1,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
 22,COALINDIA,6,9,401.5,53.1,7.4,28.3,0.12,388.07,428.36,2.0,407.5,"rsi_in_range_45_68, macd_above_signal, macd_recent_crossover, profitable_reasonable_pe, healthy_roe_above_12pct, manageable_debt_to_equity"
-23,MOTHERSON,6,9,161.91,53.1,36.3,11.2,0.48,153.37,178.99,2.0,168.0,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
+23,MOTHERSON,6,9,161.91,53.1,36.1,11.2,0.48,153.37,178.99,2.0,168.0,"uptrend_vs_sma50, rsi_in_range_45_68, macd_above_signal, volume_above_avg, profitable_reasonable_pe, manageable_debt_to_equity"
